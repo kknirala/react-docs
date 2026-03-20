@@ -1,0 +1,300 @@
+// 1. React Rendering & Re-rendering
+React re-renders a component when its state, props, or context changes. However, re-render does not mean DOM update. React uses Virtual DOM and reconciliation to compare previous and next UI, and only updates the changed parts. Parent re-render triggers child re-render unless optimized. Understanding this helps avoid unnecessary renders using memoization. Key optimization tools include React.memo, useMemo, and useCallback. Senior engineers focus on minimizing expensive renders rather than avoiding all renders.
+
+// 2. Virtual DOM
+Virtual DOM is a lightweight JavaScript representation of the real DOM. React updates this virtual tree first, compares it with the previous version (diffing), and then applies minimal changes to the real DOM. This improves performance by avoiding direct DOM manipulation. However, Virtual DOM is not always faster—it depends on how efficiently updates are handled. The main advantage is predictable UI updates and abstraction over manual DOM handling.
+
+// 3. Reconciliation Algorithm
+Reconciliation is React’s process of comparing two Virtual DOM trees to determine what changed. It uses heuristics like element type and keys to optimize diffing. If element types differ, React destroys and rebuilds nodes. Keys help React identify list items efficiently. Poor key usage (like index) can cause incorrect UI updates and performance issues. Understanding reconciliation is critical for optimizing list rendering and dynamic UI updates.
+
+// 4. React Fiber
+React Fiber is the reimplementation of React’s core algorithm enabling incremental rendering. It allows React to pause, resume, and prioritize work. This is important for handling large UI updates without blocking the main thread. Fiber introduces concepts like priority levels and scheduling. It powers features like concurrent rendering. Senior engineers should understand Fiber to debug performance issues and understand how React schedules updates.
+
+// 5. useState Hook
+useState is used to manage local component state. It returns a state value and a setter function. Updates are asynchronous and may be batched. Using functional updates (prev => prev + 1) ensures correct state when multiple updates occur. Avoid storing derived state unnecessarily. useState should be used for simple local state, while complex logic may require useReducer.
+
+// 6. useEffect Hook
+useEffect handles side effects like API calls, subscriptions, and DOM updates. It runs after render. Dependency array controls when it runs. Missing dependencies can cause stale data, while incorrect dependencies can cause infinite loops. Cleanup function prevents memory leaks. Senior engineers must handle edge cases like race conditions and proper cleanup.
+
+// 7. useMemo
+useMemo memoizes expensive calculations to avoid recomputation. It recalculates only when dependencies change. Overuse can harm performance due to memory overhead. Use it for expensive operations like filtering large lists. It helps maintain stable references when passing props to memoized components.
+
+// 8. useCallback
+useCallback memoizes functions to prevent unnecessary re-renders when passing callbacks to child components. It is useful when used with React.memo. However, it should not be overused as it adds complexity. It ensures stable function references across renders.
+
+// 9. React.memo
+React.memo prevents re-rendering of functional components if props haven’t changed. It uses shallow comparison. It is useful for optimizing pure components. However, if props are objects/functions recreated each render, memo won’t work effectively.
+
+// 10. useRef
+useRef provides a mutable reference that persists across renders without causing re-renders. It is used for accessing DOM elements and storing mutable values. Unlike state, updating ref does not trigger re-render. Useful for timers, previous values, and DOM manipulation.
+
+// 11. Controlled vs Uncontrolled Components
+Controlled components use React state to manage form inputs, while uncontrolled components use DOM refs. Controlled components provide better control and validation, while uncontrolled components are simpler and more performant for basic use cases.
+
+// 12. Keys in React
+Keys help React identify list elements during reconciliation. Stable and unique keys improve performance and prevent UI bugs. Using index as key can cause issues when list order changes.
+
+// 13. Lifting State Up
+Lifting state up means moving shared state to the nearest common ancestor. This ensures consistency across components. It avoids duplication but may increase prop drilling.
+
+// 14. Context API
+Context provides a way to share state globally without prop drilling. It is useful for themes, auth, and global settings. However, excessive use can cause performance issues due to re-renders.
+
+// 15. Prop Drilling
+Prop drilling occurs when props are passed through multiple layers unnecessarily. It can make code hard to maintain. Solutions include Context API or state management libraries.
+
+// 16. Error Boundaries
+Error boundaries catch JavaScript errors in component trees and display fallback UI. They improve app stability. Only class components can be error boundaries.
+
+// 17. Code Splitting
+Code splitting reduces bundle size by loading code on demand. React.lazy and Suspense are used for this. It improves initial load performance.
+
+// 18. Lazy Loading
+Lazy loading delays loading of components until needed. Useful for routes and large components. It improves performance and user experience.
+
+// 19. Portals
+Portals allow rendering components outside the DOM hierarchy. Useful for modals, tooltips, and overlays.
+
+// 20. Fragments
+Fragments allow grouping elements without adding extra DOM nodes. Helps keep DOM clean and improves performance.
+
+
+// 21. Concurrent Rendering
+Concurrent rendering allows React to interrupt and prioritize updates. It improves UI responsiveness by splitting rendering work into chunks. It is powered by React Fiber. Features like useTransition and useDeferredValue help manage priority updates.
+
+// 22. useTransition
+useTransition allows marking updates as non-urgent. It keeps UI responsive during heavy rendering. Useful for filtering large lists or navigation.
+
+// 23. useDeferredValue
+Defers a value update to avoid blocking UI. Useful when typing into input while rendering heavy components.
+
+// 24. Batching Updates
+React batches multiple state updates into a single render for performance. In React 18, batching works even in async operations.
+
+// 25. Synthetic Events
+React wraps browser events into a consistent API. This improves cross-browser compatibility and performance.
+
+// 26. Event Delegation
+React attaches event listeners at root instead of individual nodes. This reduces memory usage and improves performance.
+
+// 27. Strict Mode
+Helps identify unsafe lifecycle usage and side effects. It intentionally double-invokes some functions in development.
+
+// 28. Hydration
+Hydration attaches event listeners to server-rendered HTML. Mismatch between server and client causes issues.
+
+// 29. SSR (Server Side Rendering)
+Server renders HTML before sending to client. Improves SEO and initial load performance.
+
+// 30. CSR (Client Side Rendering)
+Rendering happens in browser after JS loads. Suitable for highly interactive apps.
+
+// 31. SSG (Static Site Generation)
+Pages are generated at build time. Fast and SEO-friendly. Used in static content.
+
+// 32. Incremental Static Regeneration
+Allows updating static pages after deployment. Combines benefits of SSR and SSG.
+
+// 33. Routing in React
+Routing controls navigation. Libraries like react-router handle dynamic routing.
+
+// 34. Dynamic Routing
+Routes generated based on data (e.g., /user/:id). Improves scalability.
+
+// 35. Nested Routing
+Allows rendering components within components based on route hierarchy.
+
+// 36. Suspense
+Suspense handles lazy loading and async UI rendering with fallback UI.
+
+// 37. Error Handling in Hooks
+Errors inside hooks should be handled properly using try/catch or boundaries.
+
+// 38. Cleanup in useEffect
+Cleanup prevents memory leaks. Used for removing listeners, cancelling API calls.
+
+// 39. Race Conditions
+Occurs when multiple async calls conflict. Fix using AbortController or tracking latest request.
+
+// 40. AbortController
+Used to cancel fetch requests and avoid stale updates.
+
+// 41. Memoization Strategy
+Memoize only expensive operations. Overuse can degrade performance.
+
+// 42. Referential Equality
+Objects/functions change reference each render. Causes re-renders. Use memoization.
+
+// 43. Immutable State
+State should not be mutated directly. React depends on immutability for change detection.
+
+// 44. Derived State
+Avoid storing derived values in state. Compute from existing state instead.
+
+// 45. State Colocation
+Keep state close to where it is used. Avoid unnecessary global state.
+
+// 46. Global State Patterns
+Use Context, Redux, or Zustand depending on complexity.
+
+// 47. Redux Architecture
+Centralized store with reducers and actions. Predictable state management.
+
+// 48. Redux Toolkit
+Simplifies Redux with less boilerplate and better patterns.
+
+// 49. Zustand
+Lightweight state management using hooks. Minimal boilerplate.
+
+// 50. Recoil
+Atom-based state management for fine-grained updates.
+
+// 51. Selector Optimization
+Selectors compute derived data efficiently and avoid re-renders.
+
+// 52. Normalized State
+Store data in flat structure. Avoid nested objects for better updates.
+
+// 53. Middleware in Redux
+Used for async logic (e.g., thunk, saga).
+
+// 54. Thunk vs Saga
+Thunk is simple async logic; Saga handles complex side effects.
+
+// 55. GraphQL Integration
+Fetch only required data. Improves performance over REST.
+
+// 56. REST API Integration
+Standard HTTP-based communication. Use Axios or fetch.
+
+// 57. Caching Strategies
+Cache API responses to reduce network calls.
+
+// 58. Optimistic Updates
+Update UI before API response. Rollback on failure.
+
+// 59. Pagination
+Load data in chunks. Improves performance.
+
+// 60. Infinite Scrolling
+Load more data on scroll instead of pagination.
+
+// 61. WebSockets
+Enable real-time communication.
+
+// 62. Polling
+Repeated API calls at intervals.
+
+// 63. Debouncing
+Delay execution until user stops typing.
+
+// 64. Throttling
+Limit execution rate over time.
+
+// 65. Forms Handling
+Manage input, validation, submission.
+
+// 66. Form Libraries
+Formik, React Hook Form simplify forms.
+
+// 67. Validation
+Ensure correct user input.
+
+// 68. Accessibility (a11y)
+Ensure app is usable by all users.
+
+// 69. ARIA Attributes
+Improve accessibility for screen readers.
+
+// 70. SEO Optimization
+Important for SSR apps.
+
+// 71. Bundle Optimization
+Reduce JS size using tree shaking.
+
+// 72. Tree Shaking
+Remove unused code from bundle.
+
+// 73. Code Splitting
+Split code into chunks.
+
+// 74. Lazy Loading Routes
+Load routes only when needed.
+
+// 75. Performance Profiling
+Use React DevTools Profiler.
+
+// 76. Memory Leaks
+Caused by uncleaned effects or listeners.
+
+// 77. Custom Hooks
+Encapsulate reusable logic.
+
+// 78. Hook Rules
+Call hooks only at top level.
+
+// 79. Hook Dependency Array
+Controls effect execution.
+
+// 80. Hook Composition
+Combine multiple hooks.
+
+// 81. Higher Order Components
+Wrap components to add functionality.
+
+// 82. Render Props
+Share logic using functions as props.
+
+// 83. Compound Components
+Components share implicit state.
+
+// 84. Headless Components
+Logic without UI.
+
+// 85. Controlled Components Pattern
+UI controlled via state.
+
+// 86. Uncontrolled Components Pattern
+Use refs instead of state.
+
+// 87. Design Systems
+Reusable UI components library.
+
+// 88. Theming
+Dynamic styles via context.
+
+// 89. CSS-in-JS
+Styled-components, emotion.
+
+// 90. Tailwind CSS
+Utility-first styling approach.
+
+// 91. Testing Strategy
+Unit, integration, E2E testing.
+
+// 92. Jest
+Testing framework.
+
+// 93. React Testing Library
+Test UI behavior.
+
+// 94. Mocking APIs
+Simulate backend responses.
+
+// 95. CI/CD Integration
+Automate build and deploy.
+
+// 96. Docker for React
+Containerize app.
+
+// 97. Micro Frontends
+Split frontend into independent apps.
+
+// 98. Module Federation
+Share modules between apps.
+
+// 99. Deployment Strategies
+CDN, edge deployment.
+
+// 100. Monitoring & Logging
+Track errors and performance.
